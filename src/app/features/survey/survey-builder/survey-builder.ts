@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { QuestionEditor } from '../question-editor/question-editor';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Survey } from '../models/survey';
 import { createQuestionFormGroup, createSurveyForm } from '../utils/survey-form-builder';
+import { ActivatedRoute } from '@angular/router';
+import { SurveyService } from '../services/survey.service';
 
 @Component({
   selector: 'app-survey-builder',
@@ -10,15 +12,21 @@ import { createQuestionFormGroup, createSurveyForm } from '../utils/survey-form-
   templateUrl: './survey-builder.html',
 })
 export class SurveyBuilder {
-  surveyForm!: FormGroup;
+  private route = inject(ActivatedRoute);
+  private surveyService = inject(SurveyService);
+  private fb = inject(FormBuilder);
 
-  constructor(private fb: FormBuilder) {}
+  surveyForm: FormGroup = createSurveyForm(this.fb);
 
   ngOnInit() {
-    this.buildForm();
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
+
+    this.surveyService.getSurvey(id).subscribe((data) => this.buildForm(data));
   }
 
-  buildForm(survey?: Survey) {    
+  buildForm(survey?: Survey) {
+    console.log('Building survey form with data:', survey);
     this.surveyForm = createSurveyForm(this.fb, survey);
   }
 
@@ -27,6 +35,11 @@ export class SurveyBuilder {
   }
 
   addQuestion() {
-     this.questions.push(createQuestionFormGroup(this.fb));
+    if (!this.questions.valid) {
+      this.questions.markAllAsTouched();
+      return;
+    }
+
+    this.questions.push(createQuestionFormGroup(this.fb));
   }
 }

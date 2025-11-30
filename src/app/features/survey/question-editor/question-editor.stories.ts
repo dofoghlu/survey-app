@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { QuestionEditor } from './question-editor';
 import { FormBuilder } from '@angular/forms';
-import { mockNewQuestion, mockSingleChoiceQuestion } from './question.test-data';
+import { mockNewQuestion, mockSingleChoiceQuestion } from '../test-data/question.test-data';
 import { createQuestionFormGroup } from '../utils/survey-form-builder';
 import { QuestionType } from '../constants/question-type';
 import { expect, userEvent, within } from 'storybook/test';

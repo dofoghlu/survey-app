@@ -1,12 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiClient } from '../../../core/api/api-client';
+import { Survey } from '../models/survey';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Survey {
+export class SurveyService {
   private api = inject(ApiClient);
-  private path = '/Survey';
+
+  static path = '/Survey';
+  public path = SurveyService.path;
 
   getSurveys() {
     return this.api.get<Survey[]>(this.path);
