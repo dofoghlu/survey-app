@@ -14,8 +14,9 @@ export const createSurveyForm = (fb: FormBuilder, survey?: Survey): FormGroup =>
   }
 
   return fb.group({
-    surveyId: [survey?.id || 0],
-    surveyTitle: [survey?.title || '', Validators.required],
+    id: [survey?.id || 0],
+    title: [survey?.title || ''],
+    description: [survey?.description || ''],
     questions: questionsArray,
   });
 };

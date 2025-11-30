@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { QuestionEditor } from '../question-editor/question-editor';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Survey } from '../models/survey';
 import { createQuestionFormGroup, createSurveyForm } from '../utils/survey-form-builder';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +8,7 @@ import { SurveyService } from '../services/survey.service';
 
 @Component({
   selector: 'app-survey-builder',
-  imports: [QuestionEditor],
+  imports: [QuestionEditor, ReactiveFormsModule],
   templateUrl: './survey-builder.html',
 })
 export class SurveyBuilder {
@@ -30,12 +30,7 @@ export class SurveyBuilder {
   }
 
   buildForm(survey?: Survey) {
-    console.log('Building survey form with data:', survey);
     this.surveyForm = createSurveyForm(this.fb, survey);
-  }
-
-  get questions(): FormArray<FormGroup> {
-    return this.surveyForm.get('questions') as FormArray<FormGroup>;
   }
 
   addQuestion() {
@@ -45,5 +40,17 @@ export class SurveyBuilder {
     }
 
     this.questions.push(createQuestionFormGroup(this.fb));
+  }
+
+  get title(): FormControl {
+    return this.surveyForm.get('title') as FormControl;
+  }
+
+  get description(): FormControl {
+    return this.surveyForm.get('description') as FormControl;
+  }
+
+  get questions(): FormArray<FormGroup> {
+    return this.surveyForm.get('questions') as FormArray<FormGroup>;
   }
 }

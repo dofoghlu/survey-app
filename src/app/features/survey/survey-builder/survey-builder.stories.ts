@@ -6,6 +6,7 @@ import { SurveyService } from '../services/survey.service';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { provideLocationMocks } from '@angular/common/testing';
 import { mockSurvey } from '../test-data/survey.test-data';
+import { expect, waitFor, within } from 'storybook/test';
 
 const base = environment.apiUrl;
 const surveyPath = SurveyService.path;
@@ -14,10 +15,7 @@ const meta: Meta<SurveyBuilder> = {
   component: SurveyBuilder,
   decorators: [
     applicationConfig({
-      providers: [
-        provideRouter([]),
-        provideLocationMocks(),
-      ],
+      providers: [provideRouter([]), provideLocationMocks()],
     }),
   ],
   parameters: {
@@ -49,4 +47,15 @@ export const Edit: Story = {
       ],
     }),
   ],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await waitFor(
+      async () => {
+        await expect(canvas.getByRole('textbox', { name: /survey title/i })).toHaveValue('Customer Satisfaction Survey');
+        await expect(canvas.getByRole('textbox', { name: /survey description/i })).toHaveValue(
+          "A survey to gauge customer satisfaction levels."
+        );
+      }
+    );
+  },
 };

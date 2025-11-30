@@ -31,7 +31,6 @@ export const SingleChoice: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-
     await expect(canvas.getByRole('textbox', { name: /options/i })).toBeDefined();
     await expect(canvas.getByRole('checkbox', { name: /randomize options/i })).toBeDefined();
   },
