@@ -45,8 +45,8 @@ export class SurveyBuilder {
     });
   }
 
-  get questions(): FormArray {
-    return this.surveyForm.get('questions') as FormArray;
+  get questions(): FormArray<FormGroup> {
+    return this.surveyForm.get('questions') as FormArray<FormGroup>;
   }
 
   addQuestion() {
