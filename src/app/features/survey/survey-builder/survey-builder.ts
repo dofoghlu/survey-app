@@ -1,6 +1,12 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { QuestionEditor } from '../question-editor/question-editor';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Survey } from '../models/survey';
 import { createQuestionFormGroup, createSurveyForm } from '../utils/survey-form-builder';
 import { ActivatedRoute } from '@angular/router';
@@ -17,13 +23,15 @@ export class SurveyBuilder {
   private surveyService = inject(SurveyService);
   private fb = inject(FormBuilder);
 
+  private surveyId: string | null = null;
+
   surveyForm: FormGroup = createSurveyForm(this.fb);
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) return;
+    this.surveyId = this.route.snapshot.paramMap.get('id');
+    if (!this.surveyId) return;
 
-    this.surveyService.getSurvey(id).subscribe((data) => {
+    this.surveyService.getSurvey(this.surveyId).subscribe((data) => {
       this.buildForm(data);
       this.cdr.detectChanges();
     });
@@ -39,8 +47,22 @@ export class SurveyBuilder {
       return;
     }
 
+    this.saveSurvey();
+
     this.questions.push(createQuestionFormGroup(this.fb));
   }
+
+  saveSurvey = () => {
+    const payload = this.surveyForm.value;
+
+    if (this.surveyId) {
+      this.surveyService.updateSurvey(this.surveyId, payload).subscribe();
+    } else {
+      this.surveyService.createSurvey(payload).subscribe((res) => {
+        this.surveyId = res.id;
+      });
+    }
+  };
 
   get title(): FormControl {
     return this.surveyForm.get('title') as FormControl;

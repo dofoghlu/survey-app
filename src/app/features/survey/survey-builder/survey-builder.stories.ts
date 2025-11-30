@@ -24,6 +24,9 @@ const meta: Meta<SurveyBuilder> = {
         http.get(`${base}${surveyPath}/:id`, () => {
           return HttpResponse.json(mockSurvey);
         }),
+        http.put(`${base}${surveyPath}/:id`, () => {
+          return HttpResponse.json({ status: 'success' });
+        }),
       ],
     },
   },
