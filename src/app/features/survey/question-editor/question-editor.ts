@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { QUESTION_TYPES } from '../constants/question-type';
+import { QUESTION_TYPES, QuestionType } from '../constants/question-type';
 
 @Component({
   selector: 'app-question-editor',
@@ -12,4 +12,8 @@ export class QuestionEditor {
   @Input() questionForm!: FormGroup;
 
   questionTypes = QUESTION_TYPES;
+
+  get isSingleLineInput(): boolean {
+    return this.questionForm.get('questionType')?.value === QuestionType.SingleLineInput;
+  }
 }

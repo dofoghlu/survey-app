@@ -3,28 +3,33 @@
     <button class="border rounded-lg px-1.5 py-1">Q1</button>
     <select class="border rounded-lg px-1.5 py-1" formControlName="questionType">
       @for (type of questionTypes; track type.value) {
-      <option [value]="type.value">
+      <option [ngValue]="type.value">
         {{ type.label }}
       </option>
       }
     </select>
   </div>
 
-  <input class="w-full" placeholder="Question text" formControlName="questionText" />
+  <input class="w-full" placeholder="Question text" formControlName="questionText" aria-label="Question text" />
 
+  @if (!isSingleLineInput) {
   <textarea
     class="w-full min-h-20"
     placeholder="- Option 1&#10;- Option 2"
     formControlName="options"
+    aria-label="Options"
   ></textarea>
+  }
 
   <hr />
 
   <div class="flex justify-end gap-4">
+    @if (!isSingleLineInput) {
     <label>
       <input type="checkbox" formControlName="randomizeOptionsInd" />
       Randomize options
     </label>
+    }
 
     <label>
       <input type="checkbox" formControlName="mandatoryInd" />
