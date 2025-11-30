@@ -13,6 +13,14 @@ export class QuestionEditor {
 
   questionTypes = QUESTION_TYPES;
 
+  get questionText() {
+    return this.questionForm.get('questionText');
+  }
+
+  get options() {
+    return this.questionForm.get('options');
+  }
+
   get isSingleLineInput(): boolean {
     return this.questionForm.get('questionType')?.value === QuestionType.SingleLineInput;
   }

@@ -1,6 +1,8 @@
 <div class="border rounded-lg p-4 space-y-4 bg-white" [formGroup]="questionForm">
   <div class="flex items-center gap-2">
     <button class="border rounded-lg px-1.5 py-1">Q1</button>
+
+    <!-- Type -->
     <select class="border rounded-lg px-1.5 py-1" formControlName="questionType">
       @for (type of questionTypes; track type.value) {
       <option [ngValue]="type.value">
@@ -10,15 +12,36 @@
     </select>
   </div>
 
-  <input class="w-full" placeholder="Question text" formControlName="questionText" aria-label="Question text" />
+  <!-- Question Text -->
+  <div>
+    <input
+      class="w-full"
+      placeholder="Question text"
+      formControlName="questionText"
+      aria-label="Question text"
+    />
+    @if (questionText?.invalid && questionText?.touched) {
+    <div class="text-red-600 text-sm">Question text is required.</div>
+    }
+  </div>
 
+  <!-- Options -->
   @if (!isSingleLineInput) {
-  <textarea
-    class="w-full min-h-20"
-    placeholder="- Option 1&#10;- Option 2"
-    formControlName="options"
-    aria-label="Options"
-  ></textarea>
+  <div>
+    <textarea
+      class="w-full min-h-20"
+      placeholder="- Option 1&#10;- Option 2"
+      formControlName="options"
+      aria-label="Options"
+    ></textarea>
+
+     @let errors = options?.errors; @if (options?.touched
+    && errors) {
+    <p class="text-red-600 text-sm">
+      {{ errors?.['message'] }}
+    </p>
+    }
+  </div>
   }
 
   <hr />

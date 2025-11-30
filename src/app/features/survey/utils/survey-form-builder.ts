@@ -2,6 +2,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Survey } from '../models/survey';
 import { Question } from '../models/question';
 import { QuestionType } from '../constants/question-type';
+import { questionOptionsValidator } from '../survey-builder/question-options-validator';
 
 export const createSurveyForm = (fb: FormBuilder, survey?: Survey): FormGroup => {
   const questionsArray = fb.array(
@@ -25,7 +26,7 @@ export const createQuestionFormGroup = (fb: FormBuilder, question?: Question): F
     questionText: [question?.questionText || null, Validators.required],
     mandatoryInd: [question?.mandatoryInd || false],
     questionType: [question?.questionType || QuestionType.SingleChoice],
-    options: [question?.options?.map((opt) => `- ${opt}`).join('\n') || ''],
+    options: [question?.options?.map((opt) => `- ${opt}`).join('\n') || '', questionOptionsValidator],
     randomizeOptionsInd: [question?.randomizeOptionsInd || false],
     cards: [question?.cards || []],
     programmerNotes: [question?.programmerNotes || null],
