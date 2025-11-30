@@ -1,10 +1,12 @@
 <div class="p-6 flex flex-col gap-6">
   <div>
-      <div class="text-2xl font-semibold">Survey Title</div>
-      <div>Survey Description</div>
+    <div class="text-2xl font-semibold">Survey Title</div>
+    <div>Survey Description</div>
   </div>
 
-  <app-question-editor></app-question-editor> 
+  @for (q of questions.controls; track q.value.questionId) {
+  <app-question-editor></app-question-editor>
+  }
 
-  <button class="self-start px-4 py-2 text-blue-600">Add a question</button>
+  <button class="self-start px-4 py-2 text-blue-600" (click)="addQuestion()">Add a question</button>
 </div>
