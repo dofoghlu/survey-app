@@ -19,6 +19,23 @@ export const mockSingleChoiceQuestion: Question = {
   instructions: ''
 };
 
+export const mockMultipleChoiceQuestion: Question = {
+  questionId: 2,
+  questionText: 'Which features do you use the most? (Select all that apply)',
+  mandatoryInd: false,
+  questionType: QuestionType.MultipleChoice,
+  options: [
+    'Feature A',
+    'Feature B',
+    'Feature C',  
+    'Feature D'
+  ],
+  randomizeOptionsInd: true,
+  cards: null,
+  programmerNotes: 'This question helps identify popular features.',
+  instructions: 'You can select multiple options.'
+};
+
 export const mockNewQuestion: Question = {
   questionId: 2,
   questionText: null,

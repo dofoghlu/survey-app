@@ -24,7 +24,6 @@ const meta: Meta<SurveyBuilder> = {
     msw: {
       handlers: [
         http.get(`${base}${surveyPath}/:id`, () => {
-          console.log('Mocking survey GET request', mockSurvey);
           return HttpResponse.json(mockSurvey);
         }),
       ],

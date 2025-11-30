@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { QuestionEditor } from '../question-editor/question-editor';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Survey } from '../models/survey';
@@ -13,6 +13,7 @@ import { SurveyService } from '../services/survey.service';
 })
 export class SurveyBuilder {
   private route = inject(ActivatedRoute);
+  private cdr = inject(ChangeDetectorRef);
   private surveyService = inject(SurveyService);
   private fb = inject(FormBuilder);
 
@@ -22,7 +23,10 @@ export class SurveyBuilder {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) return;
 
-    this.surveyService.getSurvey(id).subscribe((data) => this.buildForm(data));
+    this.surveyService.getSurvey(id).subscribe((data) => {
+      this.buildForm(data);
+      this.cdr.detectChanges();
+    });
   }
 
   buildForm(survey?: Survey) {

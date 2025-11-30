@@ -4,8 +4,8 @@
     <div>Survey Description</div>
   </div>
 
-  @for (q of questions.controls; track q.value.questionId) {
-  <app-question-editor [questionForm]="q"></app-question-editor>
+  @for (q of questions.controls; let i = $index; track q.value.questionId) {
+  <app-question-editor [index]="i" [questionForm]="q" ></app-question-editor>
   }
 
   <button class="self-start px-4 py-2 text-blue-600" (click)="addQuestion()">Add a question</button>

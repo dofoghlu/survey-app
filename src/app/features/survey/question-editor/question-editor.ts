@@ -9,6 +9,7 @@ import { QUESTION_TYPES, QuestionType } from '../constants/question-type';
   templateUrl: './question-editor.html',
 })
 export class QuestionEditor {
+  @Input() index!: number;
   @Input() questionForm!: FormGroup;
 
   questionTypes = QUESTION_TYPES;
