@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "storybook": "ng run survey-app:storybook",
+    "build-storybook": "ng run survey-app:build-storybook"
   },
   "prettier": {
     "printWidth": 100,
@@ -33,12 +35,19 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@analogjs/storybook-angular": "^2.1.1",
+    "@angular-devkit/architect": "^0.2100.0",
+    "@angular-devkit/build-angular": "^21.0.0",
+    "@angular-devkit/core": "^21.0.0",
     "@angular/build": "^21.0.1",
     "@angular/cli": "^21.0.1",
     "@angular/compiler-cli": "^21.0.0",
+    "@angular/platform-browser-dynamic": "^21.0.0",
+    "@storybook/angular": "^10.1.2",
     "@tailwindcss/postcss": "^4.1.12",
     "jsdom": "^27.1.0",
     "postcss": "^8.5.3",
+    "storybook": "^10.1.2",
     "tailwindcss": "^4.1.12",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
