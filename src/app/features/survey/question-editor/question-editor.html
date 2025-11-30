@@ -1,28 +1,33 @@
-<div class="border rounded-lg p-4 space-y-4 bg-white">
+<div class="border rounded-lg p-4 space-y-4 bg-white" [formGroup]="questionForm">
   <div class="flex items-center gap-2">
     <button class="border rounded-lg px-1.5 py-1">Q1</button>
-    <select class="border rounded-lg px-3 py-1">
-      <option>Single Choice</option>
-      <option>Multiple Choice</option>
-      <option>Single-Line input</option>
-      <option>Dropdown list</option>
+    <select class="border rounded-lg px-1.5 py-1" formControlName="questionType">
+      @for (type of questionTypes; track type.value) {
+      <option [value]="type.value">
+        {{ type.label }}
+      </option>
+      }
     </select>
   </div>
 
-  <input class="w-full" placeholder="Question text" />
+  <input class="w-full" placeholder="Question text" formControlName="questionText" />
 
-  <textarea class="w-full min-h-20" placeholder="- Option 1&#10;- Option 2"></textarea>
+  <textarea
+    class="w-full min-h-20"
+    placeholder="- Option 1&#10;- Option 2"
+    formControlName="options"
+  ></textarea>
 
   <hr />
 
   <div class="flex justify-end gap-4">
     <label>
-      <input type="checkbox" />
+      <input type="checkbox" formControlName="randomizeOptionsInd" />
       Randomize options
     </label>
 
     <label>
-      <input type="checkbox" />
+      <input type="checkbox" formControlName="mandatoryInd" />
       Required
     </label>
   </div>

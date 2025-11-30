@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { QUESTION_TYPES } from '../constants/question-type';
 
 @Component({
   selector: 'app-question-editor',
-  imports: [],
+  imports: [ReactiveFormsModule],
+  standalone: true,
   templateUrl: './question-editor.html',
 })
-export class QuestionEditor {}
+export class QuestionEditor {
+  @Input() questionForm!: FormGroup;
+
+  questionTypes = QUESTION_TYPES;
+}
