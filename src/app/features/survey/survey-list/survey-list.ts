@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Survey } from '../models/survey';
 import { SurveyService } from '../services/survey.service';
@@ -21,6 +21,7 @@ export class SurveyList {
 
   surveys: Survey[] = [];
   isCreating = false;
+  isLoading = false;
 
   Plus = Plus;
 
@@ -29,22 +30,35 @@ export class SurveyList {
   }
 
   private loadSurveys = () => {
-    this.surveyService.getSurveys().subscribe((data) => {
-      this.surveys = data;
-      this.cdr.detectChanges();
-    });
+    this.isLoading = true;
+    this.cdr.markForCheck();
+
+    this.surveyService
+      .getSurveys()
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.cdr.markForCheck();
+        })
+      )
+      .subscribe({
+        next: (data) => {
+          this.surveys = data;
+        },
+        error: () => {},
+      });
   };
 
   onCreate = () => {
     this.isCreating = true;
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
 
     this.surveyService
       .createSurvey({ questions: [] })
       .pipe(
         finalize(() => {
           this.isCreating = false;
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
         })
       )
       .subscribe({

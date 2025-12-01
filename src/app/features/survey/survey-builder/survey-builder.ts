@@ -16,6 +16,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from '../services/survey.service';
 import { LucideAngularModule, Plus, ArrowLeft } from 'lucide-angular';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-survey-builder',
@@ -32,6 +33,7 @@ export class SurveyBuilder {
   private surveyId: string | null = null;
 
   surveyForm: FormGroup = createSurveyForm(this.fb);
+  isLoading = false;
 
   Plus = Plus;
   ArrowLeft = ArrowLeft;
@@ -40,10 +42,18 @@ export class SurveyBuilder {
     this.surveyId = this.route.snapshot.paramMap.get('id');
     if (!this.surveyId) return;
 
-    this.surveyService.getSurvey(this.surveyId).subscribe((data) => {
-      this.buildForm(data);
-      this.cdr.detectChanges();
-    });
+    this.isLoading = true;
+    this.surveyService
+      .getSurvey(this.surveyId)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.cdr.markForCheck();
+        }),
+      )
+      .subscribe((data) => {
+        this.buildForm(data);
+      });
   }
 
   onBack = () => {
@@ -68,7 +78,6 @@ export class SurveyBuilder {
     if (!this.surveyId) return;
 
     const payload = formToSurveyDto(this.surveyForm, this.surveyId);
-
     this.surveyService.updateSurvey(this.surveyId, payload).subscribe();
   };
 

@@ -1,18 +1,27 @@
-<div class="pt-6">
-  @if (surveys.length === 0) {
-    <app-empty-state message="No surveys created yet.">
-      <ng-container action *ngTemplateOutlet="createBtn"></ng-container>
-    </app-empty-state>
+<div class="h-full flex flex-col pt-6">
+  @if (isLoading) {
+    <div class="flex-1 flex items-center justify-center">
+      <div
+        class="h-8 w-8 rounded-full border-2 border-gray-300 border-t-blue-600 animate-spin"
+        aria-label="Loading surveys"
+      ></div>
+    </div>
   } @else {
-    <div class="flex justify-end mb-4">
-      <ng-container action *ngTemplateOutlet="createBtn"></ng-container>
-    </div>
+    @if (surveys.length === 0) {
+      <app-empty-state message="No surveys created yet.">
+        <ng-container action *ngTemplateOutlet="createBtn"></ng-container>
+      </app-empty-state>
+    } @else {
+      <div class="flex justify-end mb-4">
+        <ng-container action *ngTemplateOutlet="createBtn"></ng-container>
+      </div>
 
-    <div class="flex flex-col gap-4">
-      @for (survey of surveys; track survey.id) {
-        <app-survey-item [survey]="survey" (edit)="onEdit($event)" />
-      }
-    </div>
+      <div class="flex flex-col gap-4">
+        @for (survey of surveys; track survey.id) {
+          <app-survey-item [survey]="survey" (edit)="onEdit($event)" />
+        }
+      </div>
+    }
   }
 </div>
 
@@ -22,10 +31,14 @@
     [disabled]="isCreating"
     (click)="onCreate()"
   >
-    <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon> CreateSurvey
+    <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon>
+    Create Survey
 
     @if (isCreating) {
-      <span class="spinner"></span>
+      <span
+        class="h-4 w-4 rounded-full border-2 border-gray-300 border-t-blue-600 animate-spin"
+        aria-hidden="true"
+      ></span>
     }
   </button>
 </ng-template>
