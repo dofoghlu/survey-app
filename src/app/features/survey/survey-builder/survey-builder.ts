@@ -11,10 +11,11 @@ import { Survey } from '../models/survey';
 import { createQuestionFormGroup, createSurveyForm } from '../utils/survey-form-builder';
 import { ActivatedRoute } from '@angular/router';
 import { SurveyService } from '../services/survey.service';
+import { LucideAngularModule, Plus } from 'lucide-angular';
 
 @Component({
   selector: 'app-survey-builder',
-  imports: [QuestionEditor, ReactiveFormsModule],
+  imports: [QuestionEditor, ReactiveFormsModule, LucideAngularModule],
   templateUrl: './survey-builder.html',
 })
 export class SurveyBuilder {
@@ -26,6 +27,8 @@ export class SurveyBuilder {
   private surveyId: string | null = null;
 
   surveyForm: FormGroup = createSurveyForm(this.fb);
+
+  Plus = Plus;
 
   ngOnInit() {
     this.surveyId = this.route.snapshot.paramMap.get('id');

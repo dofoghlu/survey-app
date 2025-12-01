@@ -3,17 +3,17 @@
 @layer base {
   input,
   textarea {
-    @apply placeholder-[#674747] text-[#182230];
+    @apply placeholder-[#674747] text-[#182230] p-1;
   }
 
   button {
-    @apply p-2 rounded-lg cursor-pointer hover:filter hover:brightness-96;
+    @apply p-2 rounded-lg text-sm font-semibold cursor-pointer hover:filter hover:brightness-96;
   }
 
   input:focus,
   textarea:focus,
   button:focus {
-    @apply outline-none ring-1 ring-[#5590FF];
+    @apply outline-none ring-1 ring-[#5590FF] rounded-lg;
   }
 }
 
@@ -23,5 +23,9 @@
   }
   .divider {
     @apply border-t border-[#D0D5DD];
+  }
+
+  .text-button-primary {
+    @apply text-[#1570EF] hover:text-[#175CD3] bg-white hover:filter hover:brightness-96;
   }
 }

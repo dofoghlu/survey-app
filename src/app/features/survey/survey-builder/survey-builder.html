@@ -1,8 +1,13 @@
-<div class="p-6 flex flex-col gap-6">
+<div class="px-10 pt-6 pb-8 flex flex-col gap-6 border-default" [formGroup]="surveyForm">
   <div>
-    <input class="text-2xl font-semibold w-full" [formControl]="title" placeholder="Survey Title" aria-label="Survey Title" />
     <input
-      class="w-full"
+      class="text-3xl font-semibold w-full"
+      [formControl]="title"
+      placeholder="Survey Title"
+      aria-label="Survey Title"
+    />
+    <input
+      class="w-full text-lg"
       [formControl]="description"
       placeholder="Survey Description"
       aria-label="Survey Description"
@@ -10,8 +15,10 @@
   </div>
 
   @for (q of questions.controls; let i = $index; track q.value.questionId) {
-  <app-question-editor [index]="i" [questionForm]="q"></app-question-editor>
+    <app-question-editor [index]="i" [questionForm]="q"></app-question-editor>
   }
 
-  <button class="self-start px-4 py-2 text-blue-600" (click)="addQuestion()">Add a question</button>
+  <button class="self-start text-button-primary flex items-center gap-1" (click)="addQuestion()">
+    <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon> Add a question
+  </button>
 </div>
