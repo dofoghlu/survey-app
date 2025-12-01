@@ -5,9 +5,9 @@
     <!-- Type -->
     <select class="border rounded-lg px-1.5 py-1" formControlName="questionType">
       @for (type of questionTypes; track type.value) {
-      <option [ngValue]="type.value">
-        {{ type.label }}
-      </option>
+        <option [ngValue]="type.value">
+          {{ type.label }}
+        </option>
       }
     </select>
   </div>
@@ -21,37 +21,36 @@
       aria-label="Question text"
     />
     @if (questionText?.invalid && questionText?.touched) {
-    <div class="text-red-600 text-sm">Question text is required.</div>
+      <div class="text-red-600 text-sm">Question text is required.</div>
     }
   </div>
 
   <!-- Options -->
   @if (!isSingleLineInput) {
-  <div>
-    <textarea
-      class="w-full min-h-20"
-      placeholder="- Option 1&#10;- Option 2"
-      formControlName="options"
-      aria-label="Options"
-    ></textarea>
+    <div>
+      <textarea
+        class="w-full min-h-20"
+        placeholder="- Option 1&#10;- Option 2"
+        formControlName="options"
+        aria-label="Options"
+      ></textarea>
 
-     @let errors = options?.errors; @if (options?.touched
-    && errors) {
-    <p class="text-red-600 text-sm">
-      {{ errors?.['message'] }}
-    </p>
-    }
-  </div>
+      @if (options?.touched && options?.errors) {
+        <p class="text-red-600 text-sm">
+          {{ options?.errors?.['message'] }}
+        </p>
+      }
+    </div>
   }
 
   <hr />
 
   <div class="flex justify-end gap-4">
     @if (!isSingleLineInput) {
-    <label>
-      <input type="checkbox" formControlName="randomizeOptionsInd" />
-      Randomize options
-    </label>
+      <label>
+        <input type="checkbox" formControlName="randomizeOptionsInd" />
+        Randomize options
+      </label>
     }
 
     <label>
