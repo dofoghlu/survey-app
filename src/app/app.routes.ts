@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { SurveyBuilder } from './features/survey/survey-builder/survey-builder';
-import { Welcome } from './features/auth/welcome';
+import { Welcome } from './features/auth/welcome/welcome';
 import { emailGuard } from './features/auth/email.guard';
 import { SurveyList } from './features/survey/survey-list/survey-list';
 

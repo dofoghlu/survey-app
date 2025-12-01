@@ -1,0 +1,31 @@
+<div class="h-full flex flex-col p-6 gap-4 max-w-sm mx-auto pt-48">
+  <form class="flex flex-col gap-4" [formGroup]="form" (ngSubmit)="save()">
+    <div>
+      <h1 class="text-3xl font-semibold text-center">Welcome</h1>
+      <p class="text-center">Please enter your email to get started.</p>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <input
+        class="border border-[#D0D5DD] rounded-lg p-1"
+        placeholder="Enter your email"
+        formControlName="email"
+        type="email"
+        autocomplete="email"
+      />
+      @if (email?.touched && email?.invalid) {
+        <p class="text-sm text-red-600">
+          @if (email?.errors?.['required']) {
+            Email is required.
+          } @else if (email?.errors?.['email']) {
+            Please enter a valid email.
+          }
+        </p>
+      }
+    </div>
+
+    <button class="button-primary" type="submit" [disabled]="form.pending">
+      Continue
+    </button>
+  </form>
+</div>
