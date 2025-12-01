@@ -1,7 +1,12 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { QuestionEditor } from './question-editor';
 import { FormBuilder } from '@angular/forms';
-import { mockNewQuestion, mockSingleChoice } from '../test-data/question.test-data';
+import {
+  mockNewQuestion,
+  mockSingleChoice,
+  mockMultipleChoice,
+  mockDropdownList,
+} from '../test-data/question.test-data';
 import { createQuestionFormGroup } from '../utils/survey-form-builder';
 import { QuestionType } from '../constants/question-type';
 import { expect, userEvent, within } from 'storybook/test';
@@ -26,8 +31,15 @@ export const NewQuestion: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole('switch', { name: /required/i })).toHaveAttribute('aria-checked', 'false');
-    await expect(canvas.getByRole('switch', { name: /randomize options/i })).toHaveAttribute('aria-checked', 'false');
+
+    await expect(canvas.getByRole('switch', { name: /required/i })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
+    await expect(canvas.getByRole('switch', { name: /randomize options/i })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
   },
 };
 
@@ -39,6 +51,25 @@ export const SingleChoice: Story = {
         questionForm: createQuestionFormGroup(fb, mockSingleChoice),
       },
     };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('combobox')).toHaveTextContent(/single choice/i);
+  },
+};
+
+export const MultipleChoice: Story = {
+  render: () => {
+    return {
+      props: {
+        index: 0,
+        questionForm: createQuestionFormGroup(fb, mockMultipleChoice),
+      },
+    };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('combobox')).toHaveTextContent(/multiple choice/i);
   },
 };
 
@@ -56,7 +87,22 @@ export const SingleLineInput: Story = {
     const canvas = within(canvasElement);
 
     await expect(canvas.queryByRole('textbox', { name: /options/i })).toBeNull();
-    await expect(canvas.queryByRole('checkbox', { name: /randomize options/i })).toBeNull();
+    await expect(canvas.queryByRole('switch', { name: /randomize options/i })).toBeNull();
+  },
+};
+
+export const DropdownList: Story = {
+  render: () => {
+    return {
+      props: {
+        index: 0,
+        questionForm: createQuestionFormGroup(fb, mockDropdownList),
+      },
+    };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('combobox')).toHaveTextContent(/dropdown list/i);
   },
 };
 

@@ -1,5 +1,5 @@
 <button
-  class="bg-[#F5FAFF] border border-[#D0D5DD]"
+  class="bg-[#F5FAFF] border border-[#D0D5DD] text-sm text-[#344054] font-semibold flex items-center gap-2"
   [ngpMenuTrigger]="menu"
   ngpButton
   role="combobox"
@@ -7,6 +7,7 @@
   [attr.aria-label]="label"
 >
   {{ selectedItem?.label ?? 'Select' }}
+  <lucide-icon [img]="ChevronDown" class="w-4 h-4"></lucide-icon>
 </button>
 
 <ng-template #menu>

@@ -54,9 +54,9 @@ export const Edit: Story = {
     const canvas = within(canvasElement);
     await waitFor(
       async () => {
-        await expect(canvas.getByRole('textbox', { name: /survey title/i })).toHaveValue('Customer Satisfaction Survey');
+        await expect(canvas.getByRole('textbox', { name: /survey title/i })).toHaveValue('Survey 1');
         await expect(canvas.getByRole('textbox', { name: /survey description/i })).toHaveValue(
-          "A survey to gauge customer satisfaction levels."
+          "Survey 1 Description",
         );
       }
     );

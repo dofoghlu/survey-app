@@ -3,10 +3,11 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { QUESTION_TYPES, QuestionType } from '../constants/question-type';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { Switch } from '../../../shared/components/switch/switch';
+import { Dropdown } from '../../../shared/components/dropdown/dropdown';
 
 @Component({
   selector: 'app-question-editor',
-  imports: [ReactiveFormsModule, TextFieldModule, Switch],
+  imports: [ReactiveFormsModule, TextFieldModule, Switch, Dropdown],
   standalone: true,
   templateUrl: './question-editor.html',
 })
