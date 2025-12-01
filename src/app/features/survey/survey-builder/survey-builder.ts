@@ -18,10 +18,12 @@ import { SurveyService } from '../services/survey.service';
 import { LucideAngularModule, Plus, ArrowLeft } from 'lucide-angular';
 import { finalize } from 'rxjs';
 import { isEqual } from 'lodash';
+import { Switch } from "../../../shared/components/switch/switch";
+import { SurveyPreview } from "../survey-preview/survey-preview";
 
 @Component({
   selector: 'app-survey-builder',
-  imports: [QuestionEditor, ReactiveFormsModule, LucideAngularModule],
+  imports: [QuestionEditor, ReactiveFormsModule, LucideAngularModule, Switch, SurveyPreview],
   templateUrl: './survey-builder.html',
 })
 export class SurveyBuilder {
@@ -34,14 +36,16 @@ export class SurveyBuilder {
   private surveyId: string | null = null;
 
   surveyForm: FormGroup = createSurveyForm(this.fb);
-  isLoading = false;
 
   Plus = Plus;
   ArrowLeft = ArrowLeft;
 
   private formSnapshot: any = null;
-  hasUnsavedChanges = false;
+
+  isLoading = false;
   isSaving = false;
+  hasUnsavedChanges = false;
+  showPreview = false;
 
   ngOnInit() {
     this.surveyId = this.route.snapshot.paramMap.get('id');

@@ -1,0 +1,98 @@
+<div class="p-4 flex flex-col gap-6">
+  @if (title || description) {
+    <div class="flex flex-col gap-1">
+      @if (title) {
+        <h2 class="text-2xl font-semibold">{{ title }}</h2>
+      }
+      @if (description) {
+        <p class="text-gray-600">{{ description }}</p>
+      }
+    </div>
+  }
+
+  @for (qCtrl of questions; let i = $index; track i) {
+    @let q = qCtrl.value;
+    @let opts = qCtrl.valid ? parseValidOptions(q.options) : [];
+
+    <div class="flex flex-col gap-4">
+      <div class="font-medium">
+        {{ i + 1 }}. {{ q.questionText }}
+        @if (q.mandatoryInd) {
+          <span class="text-red-500">*</span>
+        }
+      </div>
+
+      @switch (q.questionType) {
+        @case (QuestionType.SingleChoice) {
+          @if (qCtrl.valid) {
+            @if (opts.length > 0) {
+              <div class="flex flex-col gap-2">
+                @for (opt of opts; let j = $index; track j) {
+                  <label class="flex items-center gap-2">
+                    <input type="radio" name="sc-{{ i }}" />
+                    <span>{{ opt }}</span>
+                  </label>
+                }
+              </div>
+            } @else {
+              <ng-container *ngTemplateOutlet="noOptions"></ng-container>
+            }
+          } @else {
+            <ng-container *ngTemplateOutlet="invalidOptions"></ng-container>
+          }
+        }
+
+        @case (QuestionType.MultipleChoice) {
+          @if (qCtrl.valid) {
+            @if (opts.length > 0) {
+              <div class="flex flex-col gap-2">
+                @for (opt of opts; let j = $index; track j) {
+                  <label class="flex items-center gap-2">
+                    <input type="checkbox" />
+                    <span>{{ opt }}</span>
+                  </label>
+                }
+              </div>
+            } @else {
+              <ng-container *ngTemplateOutlet="noOptions"></ng-container>
+            }
+          } @else {
+            <ng-container *ngTemplateOutlet="invalidOptions"></ng-container>
+          }
+        }
+
+        @case (QuestionType.SingleLineInput) {
+          <input type="text" placeholder="Your answer" />
+        }
+
+        @case (QuestionType.DropdownList) {
+          @if (qCtrl.valid) {
+            @if (opts.length > 0) {
+              <select class="w-full">
+                @for (opt of opts; let j = $index; track j) {
+                  <option>{{ opt }}</option>
+                }
+              </select>
+            } @else {
+              <ng-container *ngTemplateOutlet="noOptions"></ng-container>
+            }
+          } @else {
+            <ng-container *ngTemplateOutlet="invalidOptions"></ng-container>
+          }
+        }
+      }
+    </div>
+
+    @if (i < questions.length - 1) {
+      <hr class="divider" />
+    }
+  }
+</div>
+
+<ng-template #noOptions>
+  <div class="text-gray-500 italic">No options</div>
+</ng-template>
+
+<ng-template #invalidOptions>
+  <div class="text-gray-500 italic">Invalid Options</div>
+</ng-template>

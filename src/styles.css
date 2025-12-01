@@ -15,6 +15,10 @@
   button:focus {
     @apply outline-none ring-1 ring-[#5590FF] rounded-lg;
   }
+
+  select {
+    @apply p-1 rounded-lg border border-[#D0D5DD] text-[#182230];
+  }
 }
 
 @layer components {

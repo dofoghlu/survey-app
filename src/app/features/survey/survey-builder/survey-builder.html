@@ -15,6 +15,7 @@
     </div>
 
     <div class="flex items-center gap-4">
+      <app-switch label="Preview" [checked]="showPreview" (valueChange)="showPreview = $event" />
 
       <button class="button-primary" [disabled]="isSaving" (click)="onSave()">
         @if (isSaving) {
@@ -33,36 +34,44 @@
       ></div>
     </div>
   } @else {
-    <div class="px-10 pt-6 pb-8 flex flex-col gap-6 border-default" [formGroup]="surveyForm">
-      <!-- your existing form content stays exactly the same -->
-      <div>
-        <input
-          class="text-3xl font-semibold w-full"
-          [formControl]="title"
-          placeholder="Survey Title"
-          aria-label="Survey Title"
-        />
-        <input
-          class="w-full text-lg"
-          [formControl]="description"
-          placeholder="Survey Description"
-          aria-label="Survey Description"
-        />
+    <div class="flex gap-6">
+      <div
+        class="flex-1 px-10 pt-6 pb-8 flex flex-col gap-6 border-default"
+        [formGroup]="surveyForm"
+      >
+        <div>
+          <input
+            class="text-3xl font-semibold w-full"
+            [formControl]="title"
+            placeholder="Survey Title"
+            aria-label="Survey Title"
+          />
+          <input
+            class="w-full text-lg"
+            [formControl]="description"
+            placeholder="Survey Description"
+            aria-label="Survey Description"
+          />
+        </div>
+        @for (q of questions.controls; let i = $index; track i) {
+          <app-question-editor
+            [index]="i"
+            [questionForm]="q"
+            (remove)="removeQuestion(i)"
+            (moveUp)="moveQuestionUp(i)"
+            (moveDown)="moveQuestionDown(i)"
+          ></app-question-editor>
+        }
+        <button class="self-start text-button flex items-center gap-1" (click)="addQuestion()">
+          <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon> Add a question
+        </button>
       </div>
 
-      @for (q of questions.controls; let i = $index; track i) {
-        <app-question-editor
-          [index]="i"
-          [questionForm]="q"
-          (remove)="removeQuestion(i)"
-          (moveUp)="moveQuestionUp(i)"
-          (moveDown)="moveQuestionDown(i)"
-        ></app-question-editor>
+      @if (showPreview) {
+        <div class="w-[380px] shrink-0 border-default p-4 overflow-y-auto">
+          <app-survey-preview [form]="surveyForm"></app-survey-preview>
+        </div>
       }
-
-      <button class="self-start text-button flex items-center gap-1" (click)="addQuestion()">
-        <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon> Add a question
-      </button>
     </div>
   }
 </div>
