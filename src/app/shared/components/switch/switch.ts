@@ -19,7 +19,7 @@ import { NgpSwitch, NgpSwitchThumb } from 'ng-primitives/switch';
 
       <button
         class="relative h-5 w-9 rounded-full bg-neutral-300
-         data-checked:bg-blue-500 p-0 outline-hidden
+         data-checked:bg-[#1570EF] p-0 outline-hidden
          transition duration-150 ease-in-out"
         ngpSwitch
         [ngpSwitchChecked]="value"

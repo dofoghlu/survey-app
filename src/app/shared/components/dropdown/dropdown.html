@@ -1,0 +1,49 @@
+<button
+  class="bg-[#F5FAFF] border border-[#D0D5DD]"
+  [ngpMenuTrigger]="menu"
+  ngpButton
+  role="combobox"
+  aria-haspopup="true"
+  [attr.aria-label]="label"
+>
+  {{ selectedItem?.label ?? 'Select' }}
+</button>
+
+<ng-template #menu>
+  <div
+    ngpMenu
+    class="animate-in fade-in-0 zoom-in-95 fixed flex w-max origin-(--ngp-menu-transform-origin) flex-col p-2 rounded-lg bg-[#F9FAFB] shadow-sm"
+  >
+    <div ngpFormField class="mb-2">
+      <div ngpSearch>
+        <input
+          ngpInput
+          type="search"
+          class="bg-white px-4 py-2 rounded-lg"
+          [value]="searchTerm"
+          (input)="onSearch($event)"
+          placeholder="Search"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      @for (item of filteredItems; track item.value) {
+        <button
+          ngpMenuItem
+          class="px-4 py-2 rounded-lg text-left border bg-[#F9FAFB]"
+          [class.border]="item.value === selected"
+          [class.border-[#98A2B3]]="item.value === selected"
+          [class.!bg-[#EFF8FF]]="item.value === selected"
+          (click)="selectItem(item)"
+        >
+          {{ item.label }}
+        </button>
+      }
+    </div>
+
+    @if (filteredItems.length === 0) {
+      <div class="text-center text-gray-500 text-sm px-2 py-2 select-none">No results</div>
+    }
+  </div>
+</ng-template>
