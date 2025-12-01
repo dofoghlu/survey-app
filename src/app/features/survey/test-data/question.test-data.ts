@@ -1,49 +1,62 @@
 import { QuestionType } from "../constants/question-type";
 import { Question } from "../models/question";
 
-export const mockSingleChoiceQuestion: Question = {
-  questionId: 1,
-  questionText: 'How satisfied are you with the experience?',
-  mandatoryInd: true,
-  questionType: QuestionType.SingleChoice,
-  options: [
-    'Very satisfied',
-    'Somewhat satisfied',
-    'Neither satisfied nor dissatisfied',
-    'Somewhat dissatisfied',
-    'Very dissatisfied'
-  ],
-  randomizeOptionsInd: false,
-  cards: null,
-  programmerNotes: '',
-  instructions: ''
-};
+export function createQuestion(params: Partial<Question>): Question {
+  return {
+    questionId: params.questionId ?? 0,
+    questionText: params.questionText ?? '',
+    mandatoryInd: params.mandatoryInd ?? false,
+    questionType: params.questionType ?? QuestionType.SingleChoice,
+    options: params.options ?? [],
+    randomizeOptionsInd: params.randomizeOptionsInd ?? false,
+    cards: params.cards ?? null,
+    programmerNotes: params.programmerNotes ?? '',
+    instructions: params.instructions ?? ''
+  };
+}
 
-export const mockMultipleChoiceQuestion: Question = {
-  questionId: 2,
-  questionText: 'Which features do you use the most? (Select all that apply)',
-  mandatoryInd: false,
+export function createQuestionList(count: number): Question[] {
+  return Array.from({ length: count }, (_, i) => 
+    createQuestion({
+      questionId: i + 1,
+      questionText: `Question ${i + 1}`,
+      questionType: i % 2 === 0 ? QuestionType.SingleChoice : QuestionType.MultipleChoice,
+      options: Array.from({ length: 3 }, (_, j) => `Option ${j + 1}`),
+    })
+  );
+}
+
+export const mockSingleChoice = createQuestion({
+  questionId: 10,
+  questionText: 'Single choice question',
+  questionType: QuestionType.SingleChoice,
+  options: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
+});
+
+export const mockMultipleChoice = createQuestion({
+  questionId: 11,
+  questionText: 'Multiple choice question',
   questionType: QuestionType.MultipleChoice,
-  options: [
-    'Feature A',
-    'Feature B',
-    'Feature C',  
-    'Feature D'
-  ],
-  randomizeOptionsInd: true,
-  cards: null,
-  programmerNotes: 'This question helps identify popular features.',
-  instructions: 'You can select multiple options.'
-};
+  options: ['Option 1', 'Option 2', 'Option 3'],
+});
 
-export const mockNewQuestion: Question = {
-  questionId: 2,
-  questionText: null,
-  mandatoryInd: false,
+export const mockSingleLineInput = createQuestion({
+  questionId: 12,
+  questionText: 'Single-line input question',
+  questionType: QuestionType.SingleLineInput,
+});
+
+export const mockDropdownList = createQuestion({
+  questionId: 13,
+  questionText: 'Dropdown list question',
+  questionType: QuestionType.DropdownList,
+  options: ['Option 1', 'Option 2', 'Option 3'],
+});
+
+export const mockNewQuestion = createQuestion({
+  questionId: 0,
+  questionText: '',
   questionType: QuestionType.SingleChoice,
-  options: null,
-  randomizeOptionsInd: false,
-  cards: null,
-  programmerNotes: null,
-  instructions: null
-};
+});
+
+export const mockQuestionList = createQuestionList(5);

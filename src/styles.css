@@ -1,3 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
 
-@import "tailwindcss";
+@layer base {
+  input,
+  textarea {
+    @apply placeholder-[#674747] text-[#182230];
+  }
+}
+
+@layer components {
+  .border-default {
+    @apply border border-[#D0D5DD] rounded-lg;
+  }
+  .divider {
+    @apply border-t border-[#D0D5DD];
+  }
+}

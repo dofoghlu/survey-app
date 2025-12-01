@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { QuestionEditor } from './question-editor';
 import { FormBuilder } from '@angular/forms';
-import { mockNewQuestion, mockSingleChoiceQuestion } from '../test-data/question.test-data';
+import { mockNewQuestion, mockSingleChoice } from '../test-data/question.test-data';
 import { createQuestionFormGroup } from '../utils/survey-form-builder';
 import { QuestionType } from '../constants/question-type';
 import { expect, userEvent, within } from 'storybook/test';
@@ -18,7 +18,10 @@ type Story = StoryObj<QuestionEditor>;
 export const Empty: Story = {
   render: () => {
     return {
-      props: { questionForm: createQuestionFormGroup(fb, mockNewQuestion) },
+      props: {
+        index: 0,
+        questionForm: createQuestionFormGroup(fb, mockNewQuestion),
+      },
     };
   },
 };
@@ -26,7 +29,10 @@ export const Empty: Story = {
 export const SingleChoice: Story = {
   render: () => {
     return {
-      props: { questionForm: createQuestionFormGroup(fb, mockSingleChoiceQuestion) },
+      props: {
+        index: 0,
+        questionForm: createQuestionFormGroup(fb, mockSingleChoice),
+      },
     };
   },
   play: async ({ canvasElement }) => {
@@ -39,6 +45,7 @@ export const SingleChoice: Story = {
 export const SingleLineInput: Story = {
   render: () => ({
     props: {
+      index: 0,
       questionForm: createQuestionFormGroup(fb, {
         ...mockNewQuestion,
         questionType: QuestionType.SingleLineInput,
@@ -55,7 +62,10 @@ export const SingleLineInput: Story = {
 
 export const InvalidOptions: Story = {
   render: () => ({
-    props: { questionForm: createQuestionFormGroup(fb, mockNewQuestion) },
+    props: {
+      index: 0,
+      questionForm: createQuestionFormGroup(fb, mockNewQuestion),
+    },
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -66,15 +76,16 @@ export const InvalidOptions: Story = {
 
     await userEvent.tab();
 
-    await expect(
-      canvas.getByText(/all lines must start with "-"/i)
-    ).toBeDefined();
+    await expect(canvas.getByText(/all lines must start with "-"/i)).toBeDefined();
   },
 };
 
 export const InsufficientOptions: Story = {
   render: () => ({
-    props: { questionForm: createQuestionFormGroup(fb, mockNewQuestion) },
+    props: {
+      index: 0,
+      questionForm: createQuestionFormGroup(fb, mockNewQuestion),
+    },
   }),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -85,9 +96,6 @@ export const InsufficientOptions: Story = {
 
     await userEvent.tab();
 
-    await expect(
-      canvas.getByText(/at least 2 options are required./i)
-    ).toBeDefined();
+    await expect(canvas.getByText(/at least 2 options are required./i)).toBeDefined();
   },
 };
-
