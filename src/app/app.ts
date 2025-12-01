@@ -24,7 +24,7 @@ export class App {
   }
 
   logout = () => {
-    localStorage.removeItem('apiEmail');
+    localStorage.removeItem('apiKey');
     this.router.navigateByUrl('/welcome');
   };
 }

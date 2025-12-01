@@ -16,10 +16,10 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from '../services/survey.service';
 import { LucideAngularModule, Plus, ArrowLeft } from 'lucide-angular';
-import { finalize } from 'rxjs';
+import { catchError, EMPTY, finalize } from 'rxjs';
 import { isEqual } from 'lodash';
-import { Switch } from "../../../shared/components/switch/switch";
-import { SurveyPreview } from "../survey-preview/survey-preview";
+import { Switch } from '../../../shared/components/switch/switch';
+import { SurveyPreview } from '../survey-preview/survey-preview';
 
 @Component({
   selector: 'app-survey-builder',
@@ -55,6 +55,13 @@ export class SurveyBuilder {
     this.surveyService
       .getSurvey(this.surveyId)
       .pipe(
+        catchError((err) => {
+          if (err.status === 404 || err.status === 500) {
+            this.router.navigate(['/404'], { skipLocationChange: true });
+            return EMPTY;
+          }
+          throw err;
+        }),
         finalize(() => {
           this.isLoading = false;
           this.cdr.markForCheck();
@@ -62,7 +69,7 @@ export class SurveyBuilder {
       )
       .subscribe((data) => {
         this.buildForm(data);
-         this.trackUnsavedChanges();
+        this.trackUnsavedChanges();
       });
   }
 
@@ -132,18 +139,16 @@ export class SurveyBuilder {
 
     this.formSnapshot = this.surveyForm.getRawValue();
 
-    this.surveyForm.valueChanges
-      .subscribe(() => {
-        const current = this.surveyForm.getRawValue();
-        const changed = !isEqual(current, this.formSnapshot);
+    this.surveyForm.valueChanges.subscribe(() => {
+      const current = this.surveyForm.getRawValue();
+      const changed = !isEqual(current, this.formSnapshot);
 
-        if (changed === this.hasUnsavedChanges) return;
+      if (changed === this.hasUnsavedChanges) return;
 
-        this.hasUnsavedChanges = changed;
-        this.cdr.markForCheck();
-      });
+      this.hasUnsavedChanges = changed;
+      this.cdr.markForCheck();
+    });
   }
-
 
   get title(): FormControl {
     return this.surveyForm.get('title') as FormControl;

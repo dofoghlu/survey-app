@@ -3,23 +3,21 @@ import { SurveyBuilder } from './features/survey/survey-builder/survey-builder';
 import { Welcome } from './features/auth/welcome/welcome';
 import { emailGuard } from './features/auth/email.guard';
 import { SurveyList } from './features/survey/survey-list/survey-list';
+import { NotFound } from './shared/components/not-found/not-found';
 
 export const routes: Routes = [
   { path: 'welcome', component: Welcome },
   { path: '', pathMatch: 'full', redirectTo: 'surveys' },
+
   {
-    path: 'surveys',
-    canActivate: [emailGuard],
-    component: SurveyList,
-  },
-  {
-    canActivate: [emailGuard],
-    path: 'surveys/new',
-    component: SurveyBuilder,
-  },
-  {
-    canActivate: [emailGuard],
-    path: 'surveys/:id',
-    component: SurveyBuilder,
+    path: '',
+    canActivateChild: [emailGuard],
+    children: [
+      { path: 'surveys', component: SurveyList },
+      { path: 'surveys/new', component: SurveyBuilder },
+      { path: 'surveys/:id', component: SurveyBuilder },
+      { path: '404', component: NotFound }, 
+      { path: '**', component: NotFound },
+    ],
   },
 ];
