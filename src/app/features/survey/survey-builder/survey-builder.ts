@@ -7,12 +7,11 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Survey, SurveyDto } from '../models/survey';
-import { createQuestionFormGroup, createSurveyForm } from '../utils/survey-form-builder';
+import { Survey } from '../models/survey';
+import { createQuestionFormGroup, createSurveyForm, formToSurveyDto } from '../utils/survey-form-builder';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from '../services/survey.service';
 import { LucideAngularModule, Plus, ArrowLeft } from 'lucide-angular';
-import { parseQuestionOptions } from '../utils/question-options.util';
 
 @Component({
   selector: 'app-survey-builder',
@@ -63,16 +62,7 @@ export class SurveyBuilder {
   }
 
   saveSurvey = () => {
-    console.log('Survey Form Value:', this.surveyForm.value);
-
-    const payload = {
-      ...this.surveyForm.value,
-      questions: this.surveyForm.value.questions.map((q: any) => ({
-        ...q,
-        options: parseQuestionOptions(q.options || ''),
-      })),
-    };
-    
+    const payload = formToSurveyDto(this.surveyForm, this.surveyId);
 
     if (this.surveyId) {
       this.surveyService.updateSurvey(this.surveyId, payload).subscribe();

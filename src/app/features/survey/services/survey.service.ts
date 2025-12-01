@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiClient } from '../../../core/api/api-client';
-import { Survey } from '../models/survey';
+import { Survey, SurveyDto } from '../models/survey';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +19,11 @@ export class SurveyService {
     return this.api.get<Survey>(`${this.path}/${id}`);
   }
 
-  createSurvey(data: Partial<Survey>) {
+  createSurvey(data: Partial<SurveyDto>) {
     return this.api.post<Survey>(this.path, data);
   }
 
-  updateSurvey(id: string, data: Partial<Survey>) {
+  updateSurvey(id: string, data: Partial<SurveyDto>) {
     return this.api.put<Survey>(`${this.path}/${id}`, data);
   }
 }

@@ -15,13 +15,6 @@ import { Survey } from '../models/survey';
           >
             Edit
           </button>
-          <button
-            (click)="delete.emit(survey)"
-            class="text-button "
-            aria-label="Delete {{ survey.title }}"
-          >
-            Delete
-          </button>
         </div>
       </div>
       <p class="text-primary">{{ survey.description }}</p>
@@ -32,5 +25,4 @@ import { Survey } from '../models/survey';
 export class SurveyItem {
   @Input() survey!: Survey;
   @Output() edit = new EventEmitter<Survey>();
-  @Output() delete = new EventEmitter<Survey>();
 }

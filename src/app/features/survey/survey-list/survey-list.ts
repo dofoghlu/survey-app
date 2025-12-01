@@ -5,11 +5,13 @@ import { SurveyService } from '../services/survey.service';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { finalize } from 'rxjs';
 import { SurveyItem } from "../survey-item/survey-item";
+import { CommonModule } from '@angular/common';
+import { LucideAngularModule, Plus } from 'lucide-angular';
 
 @Component({
   selector: 'app-survey-list',
   standalone: true,
-  imports: [EmptyState, SurveyItem],
+  imports: [EmptyState, SurveyItem, CommonModule, LucideAngularModule],
   templateUrl: './survey-list.html',
 })
 export class SurveyList {
@@ -18,8 +20,9 @@ export class SurveyList {
   private router = inject(Router);
 
   surveys: Survey[] = [];
-  surveyPendingDelete?: Survey;
   isCreating = false;
+
+  Plus = Plus;
 
   ngOnInit() {
     this.surveyService.getSurveys().subscribe((data) => {
@@ -33,7 +36,7 @@ export class SurveyList {
     this.cdr.detectChanges();
 
     this.surveyService
-      .createSurvey({})
+      .createSurvey({ questions: []})
       .pipe(
         finalize(() => {
           this.isCreating = false;
@@ -48,8 +51,5 @@ export class SurveyList {
 
   onEdit(survey: Survey) {
     this.router.navigate(['/surveys', survey.id]);
-  }
-
-  onDelete(survey: Survey) {
   }
 }
