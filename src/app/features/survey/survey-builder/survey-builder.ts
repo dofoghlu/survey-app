@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject } from '@angular/core';
 import { QuestionEditor } from '../question-editor/question-editor';
 import {
   FormArray,
@@ -20,10 +20,18 @@ import { catchError, EMPTY, finalize } from 'rxjs';
 import { isEqual } from 'lodash';
 import { Switch } from '../../../shared/components/switch/switch';
 import { SurveyPreview } from '../survey-preview/survey-preview';
+import { DialogComponent } from '../../../shared/components/dialog/dialog';
 
 @Component({
   selector: 'app-survey-builder',
-  imports: [QuestionEditor, ReactiveFormsModule, LucideAngularModule, Switch, SurveyPreview],
+  imports: [
+    QuestionEditor,
+    ReactiveFormsModule,
+    LucideAngularModule,
+    Switch,
+    SurveyPreview,
+    DialogComponent,
+  ],
   templateUrl: './survey-builder.html',
 })
 export class SurveyBuilder {
@@ -46,6 +54,11 @@ export class SurveyBuilder {
   isSaving = false;
   hasUnsavedChanges = false;
   showPreview = false;
+
+  showUnsavedDialog = false;
+
+  dialogConfirm = new EventEmitter<void>();
+  dialogCancel = new EventEmitter<void>();
 
   ngOnInit() {
     this.surveyId = this.route.snapshot.paramMap.get('id');
@@ -133,6 +146,29 @@ export class SurveyBuilder {
       this.cdr.markForCheck();
     });
   };
+
+  confirmLeave(): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.showUnsavedDialog = true;
+
+      const subConfirm = this.dialogConfirm.subscribe(() => {
+        cleanup();
+        resolve(true);
+      });
+
+      const subCancel = this.dialogCancel.subscribe(() => {
+        cleanup();
+        resolve(false);
+      });
+
+      const cleanup = () => {
+        this.showUnsavedDialog = false;
+        subConfirm.unsubscribe();
+        subCancel.unsubscribe();
+        this.cdr.markForCheck();
+      };
+    });
+  }
 
   private trackUnsavedChanges() {
     if (!this.surveyId) return;

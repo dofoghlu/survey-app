@@ -75,3 +75,15 @@
     </div>
   }
 </div>
+
+<app-dialog
+  [open]="showUnsavedDialog"
+  title="Unsaved changes"
+  confirmLabel="Leave"
+  [destructive]="true"
+  (confirm)="dialogConfirm.emit()"
+  (cancel)="dialogCancel.emit()"
+>
+  <p>You have made changes to this survey that have not been saved.</p>
+  <p>Are you sure you want to leave without saving?</p>
+</app-dialog>

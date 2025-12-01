@@ -18,7 +18,7 @@ import { RouterLink } from '@angular/router';
         class="text-button mt-2"
         routerLink="/surveys"
       >
-        Go to surveys
+        Go to Surveys
       </button>
     </div>
   `,

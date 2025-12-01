@@ -1,0 +1,40 @@
+@if (open) {
+<div class="fixed inset-0 z-50 flex items-center justify-center" role="dialog">
+  <div class="absolute inset-0 bg-black/40" (click)="onCancel()"></div>
+
+  <div class="relative w-full max-w-md rounded-lg bg-white shadow-lg">
+    <div class="flex items-center justify-between px-4 py-3 border-slate-200">
+      <h2 class="text-lg font-semibold">
+        {{ title }}
+      </h2>
+
+      <button class="rounded p-1 text-slate-500 hover:bg-slate-100" (click)="onCancel()">✕</button>
+    </div>
+
+    <div class="px-4 py-4 text-sm">
+      <ng-content></ng-content>
+    </div>
+
+    <div class="flex justify-end gap-2 px-4 py-3 border-slate-200">
+      <button
+        class="rounded border border-slate-300 px-3 py-1 text-sm text-slate-700 hover:bg-slate-100"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+
+      <button
+        class="rounded px-3 py-1 text-sm text-white"
+        [class.bg-blue-600]="!destructive"
+        [class.hover\:bg-blue-700]="!destructive"
+        [class.bg-red-600]="destructive"
+        [class.hover\:bg-red-700]="destructive"
+        (click)="onConfirm()"
+      >
+        {{ confirmLabel }}
+      </button>
+    </div>
+  </div>
+</div>
+
+}
