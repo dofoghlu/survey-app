@@ -1,59 +1,43 @@
 # SurveyApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
+## Overview
+This app gives researchers a quick way to create and edit surveys. Questions are added in a clear, structured way: pick the type, and enter questions and answers, mark required. This avoids the copy/paste and re-typing that usually happens in a word processor.
 
-## Development server
+## Features
+- **Survey List:** View existing surveys and create a survey or edit an existing one.
+- **Survey Builder:** Add questions, pick a type, enter options, mark mandatory, and save changes.
+- **Survey Preview:** View the survey alongside the editor in a clean, read-only format to see how the script looks as you edit.
 
-To start a local development server, run:
+## How to Run
 
-```bash
-ng serve
-```
+1. Install dependencies  
+   npm install
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+2. Start the development server  
+   npm start
 
-## Code scaffolding
+3. Open the application in your browser:  
+   http://localhost:4200
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Storybook
 
-```bash
-ng generate component component-name
-```
+To run Storybook for isolated component development and interaction tests:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1. Start Storybook  
+   npm run storybook
 
-```bash
-ng generate --help
-```
+2. Open in your browser:  
+   http://localhost:6006
 
-## Building
+### Test Runner
+The test runner executes all Storybook tests.  
+With Storybook running in another terminal, run:
 
-To build the project run:
+1. npm run test-storybook
 
-```bash
-ng build
-```
+## Assumptions & Decisions
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- Adding a question saves the whole survey, but only if the form is valid. Other edits don’t auto-save, so an unsaved-changes indicator and a guard were added to prevent losing work when navigating away.
+- Login: the user enters their email and it's stored in local storage. An interceptor adds it to all API requests so no manual setup is required.
+- Question deletion and reordering were added to make editing surveys easier.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
