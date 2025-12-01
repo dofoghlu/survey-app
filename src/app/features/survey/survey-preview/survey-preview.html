@@ -12,7 +12,7 @@
 
   @for (qCtrl of questions; let i = $index; track i) {
     @let q = qCtrl.value;
-    @let opts = qCtrl.valid ? parseValidOptions(q.options) : [];
+    @let opts = getOptions(q, q.options);
 
     <div class="flex flex-col gap-4">
       <div class="font-medium">
