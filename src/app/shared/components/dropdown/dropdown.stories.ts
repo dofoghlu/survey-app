@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { expect, userEvent, within } from 'storybook/test';
 import { Dropdown } from './dropdown';
 import { selectFromDropdown } from '../../utils/test-steps';
+import { CircleCheck } from 'lucide-angular';
 
 const meta: Meta<Dropdown> = {
   component: Dropdown,
@@ -11,8 +12,8 @@ export default meta;
 type Story = StoryObj<Dropdown>;
 
 const items = [
-  { label: 'Item 1', value: 1 },
-  { label: 'Item 2', value: 2 },
+  { label: 'Item 1', value: 1, icon: CircleCheck },
+  { label: 'Item 2', value: 2, icon: CircleCheck },
 ];
 
 export const Default: Story = {

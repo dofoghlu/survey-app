@@ -2,6 +2,7 @@ import { Component, forwardRef, Input, input, model } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgpMenu, NgpMenuItem, NgpMenuTrigger } from 'ng-primitives/menu';
 import { LucideAngularModule, ChevronDown } from 'lucide-angular';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dropdown',
@@ -10,6 +11,7 @@ import { LucideAngularModule, ChevronDown } from 'lucide-angular';
     NgpMenuItem,
     NgpMenuTrigger,
     LucideAngularModule,
+    CommonModule  
   ],
   providers: [
     {
@@ -21,7 +23,7 @@ import { LucideAngularModule, ChevronDown } from 'lucide-angular';
   templateUrl: './dropdown.html',
 })
 export class Dropdown<T = any> implements ControlValueAccessor {
-  @Input({ required: true }) items!: ReadonlyArray<{ label: string; value: T }>;
+  @Input({ required: true }) items!: ReadonlyArray<{ label: string; value: T, icon?: any }>;
   @Input() selected?: T;
   @Input() label = 'Select an option';
 

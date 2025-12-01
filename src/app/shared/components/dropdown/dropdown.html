@@ -6,6 +6,10 @@
   aria-haspopup="true"
   [attr.aria-label]="label"
 >
+  @if (selectedItem?.icon) {
+    <lucide-icon [img]="selectedItem!.icon" class="w-4 h-4"></lucide-icon>
+  }
+
   {{ selectedItem?.label ?? 'Select' }}
   <lucide-icon [img]="ChevronDown" class="w-4 h-4"></lucide-icon>
 </button>
@@ -32,12 +36,19 @@
       @for (item of filteredItems; track item.value) {
         <button
           ngpMenuItem
-          class="px-4 py-2 rounded-lg text-left border bg-[#F9FAFB]"
+          class="flex items-center gap-2 px-4 py-2 rounded-lg text-left border bg-[#F9FAFB]"
           [class.border]="item.value === selected"
           [class.border-[#98A2B3]]="item.value === selected"
           [class.!bg-[#EFF8FF]]="item.value === selected"
           (click)="selectItem(item)"
         >
+          @if (item.icon) {
+            <lucide-icon
+              [img]="item.icon"
+              class="w-4 h-4"
+              [class.text-blue-600]="item.value === selected"
+            ></lucide-icon>
+          }
           {{ item.label }}
         </button>
       }
