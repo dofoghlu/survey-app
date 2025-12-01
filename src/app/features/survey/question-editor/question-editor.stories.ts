@@ -15,7 +15,7 @@ const meta: Meta<QuestionEditor> = {
 export default meta;
 type Story = StoryObj<QuestionEditor>;
 
-export const Empty: Story = {
+export const NewQuestion: Story = {
   render: () => {
     return {
       props: {
@@ -23,6 +23,11 @@ export const Empty: Story = {
         questionForm: createQuestionFormGroup(fb, mockNewQuestion),
       },
     };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('textbox', { name: /options/i })).not.toBeChecked();
+    await expect(canvas.getByRole('checkbox', { name: /randomize options/i })).not.toBeChecked();
   },
 };
 
@@ -34,11 +39,6 @@ export const SingleChoice: Story = {
         questionForm: createQuestionFormGroup(fb, mockSingleChoice),
       },
     };
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await expect(canvas.getByRole('textbox', { name: /options/i })).toBeDefined();
-    await expect(canvas.getByRole('checkbox', { name: /randomize options/i })).toBeDefined();
   },
 };
 
@@ -57,6 +57,26 @@ export const SingleLineInput: Story = {
 
     await expect(canvas.queryByRole('textbox', { name: /options/i })).toBeNull();
     await expect(canvas.queryByRole('checkbox', { name: /randomize options/i })).toBeNull();
+  },
+};
+
+export const RequiredAndRandomizeOptions: Story = {
+  render: () => {
+    return {
+      props: {
+        index: 0,
+        questionForm: createQuestionFormGroup(fb, {
+          ...mockSingleChoice,
+          mandatoryInd: true,
+          randomizeOptionsInd: true,
+        }),
+      },
+    };
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('checkbox', { name: /required/i })).toBeChecked();
+    await expect(canvas.getByRole('checkbox', { name: /randomize options/i })).toBeChecked();
   },
 };
 
