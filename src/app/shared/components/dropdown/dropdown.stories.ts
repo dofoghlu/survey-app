@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { expect, userEvent, within } from 'storybook/test';
 import { Dropdown } from './dropdown';
-import { selectFromDropdown } from '../utils/test-steps';
+import { selectFromDropdown } from '../../utils/test-steps';
 
 const meta: Meta<Dropdown> = {
   component: Dropdown,

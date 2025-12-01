@@ -9,9 +9,9 @@ import {
 } from '@angular/forms';
 import { Survey } from '../models/survey';
 import { createQuestionFormGroup, createSurveyForm } from '../utils/survey-form-builder';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from '../services/survey.service';
-import { LucideAngularModule, Plus } from 'lucide-angular';
+import { LucideAngularModule, Plus, ArrowLeft } from 'lucide-angular';
 
 @Component({
   selector: 'app-survey-builder',
@@ -23,12 +23,14 @@ export class SurveyBuilder {
   private cdr = inject(ChangeDetectorRef);
   private surveyService = inject(SurveyService);
   private fb = inject(FormBuilder);
+  private router = inject(Router);
 
   private surveyId: string | null = null;
 
   surveyForm: FormGroup = createSurveyForm(this.fb);
 
   Plus = Plus;
+  ArrowLeft = ArrowLeft;
 
   ngOnInit() {
     this.surveyId = this.route.snapshot.paramMap.get('id');
@@ -39,6 +41,10 @@ export class SurveyBuilder {
       this.cdr.detectChanges();
     });
   }
+
+  onBack = () => {
+    this.router.navigate(['/surveys']);
+  };
 
   buildForm(survey?: Survey) {
     this.surveyForm = createSurveyForm(this.fb, survey);
