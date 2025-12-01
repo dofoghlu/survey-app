@@ -149,6 +149,6 @@ export const InvalidOptions: Story = {
 
     await userEvent.tab();
 
-    await expect(canvas.getByText(/all lines must start with "-"/i)).toBeDefined();
+    await expect(canvas.getByText(/all options must start with "-"/i)).toBeDefined();
   },
 };

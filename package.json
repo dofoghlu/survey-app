@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "storybook": "ng run survey-app:storybook",
-    "build-storybook": "ng run survey-app:build-storybook"
+    "build-storybook": "ng run survey-app:build-storybook",
+    "test-storybook": "test-storybook --url http://localhost:6006"
   },
   "prettier": {
     "printWidth": 100,
@@ -47,6 +48,7 @@
     "@angular/compiler-cli": "^21.0.0",
     "@angular/platform-browser-dynamic": "^21.0.0",
     "@storybook/angular": "^10.1.2",
+    "@storybook/test-runner": "^0.24.2",
     "@tailwindcss/postcss": "^4.1.12",
     "jsdom": "^27.1.0",
     "msw": "^2.12.3",
