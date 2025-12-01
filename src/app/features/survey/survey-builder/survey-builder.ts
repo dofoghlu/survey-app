@@ -8,7 +8,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Survey } from '../models/survey';
-import { createQuestionFormGroup, createSurveyForm, formToSurveyDto } from '../utils/survey-form-builder';
+import {
+  createQuestionFormGroup,
+  createSurveyForm,
+  formToSurveyDto,
+} from '../utils/survey-form-builder';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from '../services/survey.service';
 import { LucideAngularModule, Plus, ArrowLeft } from 'lucide-angular';
@@ -57,20 +61,15 @@ export class SurveyBuilder {
     }
 
     this.saveSurvey();
-
     this.questions.push(createQuestionFormGroup(this.fb));
   }
 
   saveSurvey = () => {
+    if (!this.surveyId) return;
+
     const payload = formToSurveyDto(this.surveyForm, this.surveyId);
 
-    if (this.surveyId) {
-      this.surveyService.updateSurvey(this.surveyId, payload).subscribe();
-    } else {
-      this.surveyService.createSurvey(payload).subscribe((res) => {
-        this.surveyId = res.id;
-      });
-    }
+    this.surveyService.updateSurvey(this.surveyId, payload).subscribe();
   };
 
   get title(): FormControl {

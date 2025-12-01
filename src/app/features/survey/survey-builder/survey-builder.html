@@ -22,7 +22,7 @@
     />
   </div>
 
-  @for (q of questions.controls; let i = $index; track q) {
+  @for (q of questions.controls; let i = $index; track i) {
     <app-question-editor [index]="i" [questionForm]="q"></app-question-editor>
   }
 

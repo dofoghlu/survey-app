@@ -4,7 +4,7 @@ import { Survey } from '../models/survey';
 import { SurveyService } from '../services/survey.service';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { finalize } from 'rxjs';
-import { SurveyItem } from "../survey-item/survey-item";
+import { SurveyItem } from '../survey-item/survey-item';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, Plus } from 'lucide-angular';
 
@@ -25,26 +25,30 @@ export class SurveyList {
   Plus = Plus;
 
   ngOnInit() {
+    this.loadSurveys();
+  }
+
+  private loadSurveys = () => {
     this.surveyService.getSurveys().subscribe((data) => {
       this.surveys = data;
       this.cdr.detectChanges();
     });
-  }
+  };
 
   onCreate = () => {
     this.isCreating = true;
     this.cdr.detectChanges();
 
     this.surveyService
-      .createSurvey({ questions: []})
+      .createSurvey({ questions: [] })
       .pipe(
         finalize(() => {
           this.isCreating = false;
           this.cdr.detectChanges();
-        }),
+        })
       )
       .subscribe({
-        next: (created) => this.router.navigate(['/surveys', created.id]),
+        next: () => this.loadSurveys(),
         error: () => {},
       });
   };

@@ -20,10 +20,10 @@ export class SurveyService {
   }
 
   createSurvey(data: Partial<SurveyDto>) {
-    return this.api.post<Survey>(this.path, data);
+    return this.api.post(this.path, data);
   }
 
   updateSurvey(id: string, data: Partial<SurveyDto>) {
-    return this.api.put<Survey>(`${this.path}/${id}`, data);
+    return this.api.put(`${this.path}/${id}`, data);
   }
 }
