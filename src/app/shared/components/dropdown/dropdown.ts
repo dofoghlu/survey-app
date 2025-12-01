@@ -1,7 +1,7 @@
 import { Component, forwardRef, Input, input, model } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgpMenu, NgpMenuItem, NgpMenuTrigger } from 'ng-primitives/menu';
-import { LucideAngularModule, ChevronDown } from 'lucide-angular';
+import { LucideAngularModule, ChevronDown, Search } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -28,6 +28,7 @@ export class Dropdown<T = any> implements ControlValueAccessor {
   @Input() label = 'Select an option';
 
   readonly ChevronDown = ChevronDown;
+  readonly Search = Search;
 
   searchTerm = '';
 

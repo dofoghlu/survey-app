@@ -20,11 +20,15 @@
     class="animate-in fade-in-0 zoom-in-95 fixed flex w-max origin-(--ngp-menu-transform-origin) flex-col p-2 rounded-lg bg-[#F9FAFB] shadow-sm"
   >
     <div ngpFormField class="mb-2">
-      <div ngpSearch>
+      <div ngpSearch class="relative">
+        <lucide-icon
+          [img]="Search"
+          class="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[#667085] pointer-events-none"
+        ></lucide-icon>
         <input
           ngpInput
           type="search"
-          class="bg-white px-4 py-2 rounded-lg"
+          class="bg-white py-2 rounded-lg pl-10 pr-4"
           [value]="searchTerm"
           (input)="onSearch($event)"
           placeholder="Search"
