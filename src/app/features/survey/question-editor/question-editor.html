@@ -46,17 +46,11 @@
 
   <div class="divider"></div>
 
-  <div class="flex justify-end gap-4">
+  <div class="flex justify-end gap-4 mt-5">
     @if (!isSingleLineInput) {
-      <label>
-        <input type="checkbox" formControlName="randomizeOptionsInd" />
-        Randomize options
-      </label>
+      <app-switch label="Randomize options" formControlName="randomizeOptionsInd"></app-switch>
     }
 
-    <label>
-      <input type="checkbox" formControlName="mandatoryInd" />
-      Required
-    </label>
+    <app-switch label="Required" formControlName="mandatoryInd"></app-switch>
   </div>
 </div>

@@ -14,7 +14,7 @@ import { NgpSwitch, NgpSwitchThumb } from 'ng-primitives/switch';
     },
   ],
   template: `
-    <div class="flex gap-1 items-center">
+    <div class="flex gap-2 items-center">
       <label class="text-sm">{{ label }}</label>
 
       <button

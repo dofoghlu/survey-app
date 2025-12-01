@@ -26,8 +26,8 @@ export const NewQuestion: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole('textbox', { name: /options/i })).not.toBeChecked();
-    await expect(canvas.getByRole('checkbox', { name: /randomize options/i })).not.toBeChecked();
+    await expect(canvas.getByRole('switch', { name: /required/i })).toHaveAttribute('aria-checked', 'false');
+    await expect(canvas.getByRole('switch', { name: /randomize options/i })).toHaveAttribute('aria-checked', 'false');
   },
 };
 
@@ -75,8 +75,15 @@ export const RequiredAndRandomizeOptions: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole('checkbox', { name: /required/i })).toBeChecked();
-    await expect(canvas.getByRole('checkbox', { name: /randomize options/i })).toBeChecked();
+
+    await expect(canvas.getByRole('switch', { name: /required/i })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+    await expect(canvas.getByRole('switch', { name: /randomize options/i })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
   },
 };
 
