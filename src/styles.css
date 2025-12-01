@@ -5,6 +5,10 @@
   textarea {
     @apply placeholder-[#674747] text-[#182230];
   }
+
+  button {
+    @apply cursor-pointer;
+  }
 }
 
 @layer components {
