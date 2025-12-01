@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyService } from '../services/survey.service';
 import { LucideAngularModule, Plus, ArrowLeft } from 'lucide-angular';
 import { finalize } from 'rxjs';
+import { isEqual } from 'lodash';
 
 @Component({
   selector: 'app-survey-builder',
@@ -38,6 +39,10 @@ export class SurveyBuilder {
   Plus = Plus;
   ArrowLeft = ArrowLeft;
 
+  private formSnapshot: any = null;
+  hasUnsavedChanges = false;
+  isSaving = false;
+
   ngOnInit() {
     this.surveyId = this.route.snapshot.paramMap.get('id');
     if (!this.surveyId) return;
@@ -53,11 +58,16 @@ export class SurveyBuilder {
       )
       .subscribe((data) => {
         this.buildForm(data);
+         this.trackUnsavedChanges();
       });
   }
 
   onBack = () => {
     this.router.navigate(['/surveys']);
+  };
+
+  onSave = () => {
+    this.saveSurvey();
   };
 
   buildForm(survey?: Survey) {
@@ -77,9 +87,41 @@ export class SurveyBuilder {
   saveSurvey = () => {
     if (!this.surveyId) return;
 
+    if (!this.surveyForm.valid) {
+      this.surveyForm.markAllAsTouched();
+      return;
+    }
+
+    this.isSaving = true;
+    this.cdr.markForCheck();
+
     const payload = formToSurveyDto(this.surveyForm, this.surveyId);
-    this.surveyService.updateSurvey(this.surveyId, payload).subscribe();
+
+    this.surveyService.updateSurvey(this.surveyId, payload).subscribe(() => {
+      this.formSnapshot = payload;
+      this.hasUnsavedChanges = false;
+      this.isSaving = false;
+      this.cdr.markForCheck();
+    });
   };
+
+  private trackUnsavedChanges() {
+    if (!this.surveyId) return;
+
+    this.formSnapshot = this.surveyForm.getRawValue();
+
+    this.surveyForm.valueChanges
+      .subscribe(() => {
+        const current = this.surveyForm.getRawValue();
+        const changed = !isEqual(current, this.formSnapshot);
+
+        if (changed === this.hasUnsavedChanges) return;
+
+        this.hasUnsavedChanges = changed;
+        this.cdr.markForCheck();
+      });
+  }
+
 
   get title(): FormControl {
     return this.surveyForm.get('title') as FormControl;
