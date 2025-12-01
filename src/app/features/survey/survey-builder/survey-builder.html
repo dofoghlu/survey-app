@@ -51,7 +51,13 @@
       </div>
 
       @for (q of questions.controls; let i = $index; track i) {
-        <app-question-editor [index]="i" [questionForm]="q"></app-question-editor>
+        <app-question-editor
+          [index]="i"
+          [questionForm]="q"
+          (remove)="removeQuestion(i)"
+          (moveUp)="moveQuestionUp(i)"
+          (moveDown)="moveQuestionDown(i)"
+        ></app-question-editor>
       }
 
       <button class="self-start text-button flex items-center gap-1" (click)="addQuestion()">

@@ -84,6 +84,24 @@ export class SurveyBuilder {
     this.questions.push(createQuestionFormGroup(this.fb));
   }
 
+  removeQuestion = (i: number) => {
+    this.questions.removeAt(i);
+  };
+
+  moveQuestionUp = (i: number) => {
+    if (i === 0) return;
+    const q = this.questions.at(i);
+    this.questions.removeAt(i);
+    this.questions.insert(i - 1, q);
+  };
+
+  moveQuestionDown = (i: number) => {
+    if (i === this.questions.length - 1) return;
+    const q = this.questions.at(i);
+    this.questions.removeAt(i);
+    this.questions.insert(i + 1, q);
+  };
+
   saveSurvey = () => {
     if (!this.surveyId) return;
 

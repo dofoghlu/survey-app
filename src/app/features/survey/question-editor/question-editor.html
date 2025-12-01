@@ -1,9 +1,21 @@
 <div class="border-default p-6" [formGroup]="questionForm">
-  <div class="flex items-center gap-2">
-    <div class="bg-[#363F47] text-white rounded-lg px-2.5 py-1.5">Q{{ index + 1 }}</div>
+  <div class="flex items-center justify-between gap-2">
+    <div class="flex gap-2">
+      <div class="bg-[#363F47] text-white rounded-lg px-2.5 py-1.5">Q{{ index + 1 }}</div>
+      <app-dropdown formControlName="questionType" [items]="questionTypes"></app-dropdown>
+    </div>
 
-    <!-- Type -->
-     <app-dropdown formControlName="questionType" [items]="questionTypes"></app-dropdown>
+    <div class="flex gap-1">
+      <button class="border-default text-gray-500" (click)="moveUp.emit()">
+        <lucide-icon [img]="MoveUp" class="w-4 h-4"></lucide-icon>
+      </button>
+      <button class="border-default text-gray-500" (click)="moveDown.emit()">
+        <lucide-icon [img]="MoveDown" class="w-4 h-4"></lucide-icon>
+      </button>
+      <button class="border-default text-red-600 ml-4" (click)="remove.emit()">
+        <lucide-icon [img]="Trash" class="w-4 h-4"></lucide-icon>
+      </button>
+    </div>
   </div>
 
   <div class="flex flex-col gap-6 py-5">
