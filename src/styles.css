@@ -7,7 +7,7 @@
   }
 
   button {
-    @apply p-2 rounded-lg text-sm font-semibold cursor-pointer hover:filter hover:brightness-96;
+    @apply p-2 rounded-lg text-sm font-semibold cursor-pointer hover:filter hover:brightness-98;
   }
 
   input:focus,
@@ -25,7 +25,7 @@
     @apply border-t border-[#D0D5DD];
   }
 
-  .text-button-primary {
-    @apply text-[#1570EF] hover:text-[#175CD3] bg-white hover:filter hover:brightness-96;
+  .text-button {
+    @apply text-[#1570EF] hover:text-[#175CD3] bg-white;
   }
 }

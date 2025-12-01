@@ -1,1 +1,12 @@
-<router-outlet />
+<div class="h-screen flex flex-col">
+  @if (showNav) {
+    <nav class="w-full px-4 py-3 flex justify-between items-center border-b border-gray-300">
+      <div class="font-semibold text-lg"></div>
+
+      <button class="text-button" (click)="logout()">Logout</button>
+    </nav>
+  }
+  <main class="flex-1 overflow-auto">
+    <router-outlet />
+  </main>
+</div>
