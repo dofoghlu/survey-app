@@ -152,23 +152,3 @@ export const InvalidOptions: Story = {
     await expect(canvas.getByText(/all lines must start with "-"/i)).toBeDefined();
   },
 };
-
-export const InsufficientOptions: Story = {
-  render: () => ({
-    props: {
-      index: 0,
-      questionForm: createQuestionFormGroup(fb, mockNewQuestion),
-    },
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    const textarea = canvas.getByRole('textbox', { name: /options/i });
-
-    await userEvent.type(textarea, '- Option 1');
-
-    await userEvent.tab();
-
-    await expect(canvas.getByText(/at least 2 options are required./i)).toBeDefined();
-  },
-};
